@@ -1,7 +1,8 @@
-from datetime import datetime
+import datetime
 import difflib
 import os
 import psycopg2
+import pytz
 
 def diff(after, before=None):
     if not before:
@@ -13,7 +14,7 @@ def diff(after, before=None):
                                 str(after[0]))
     return list(diff)
 
-def scrape(body, timestamp=datetime.now(), database_url=None):
+def scrape(body, timestamp=None, database_url=None):
     assert timestamp
     path = os.path.join(os.path.dirname(__file__), 'query.sql')
     with open(path) as f:
@@ -28,6 +29,7 @@ def main():
     sender        = os.environ['FROM']
     sendgrid_pass = os.environ['SENDGRID_PASSWORD']
     sendgrid_user = os.environ['SENDGRID_USERNAME']
+    timezone      = pytz.timezone(os.environ['TZ'])
 
     import argparse
     parser = argparse.ArgumentParser()
@@ -38,7 +40,8 @@ def main():
     import sys
     body = sys.stdin.read()
 
-    diff = scrape(body, database_url=database_url)
+    timestamp = datetime.datetime.now().replace(tzinfo=timezone)
+    diff = scrape(body, database_url=database_url, timestamp=timestamp)
 
     if not diff:
         return
