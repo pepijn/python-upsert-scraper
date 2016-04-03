@@ -14,8 +14,7 @@ def diff(after, before=None):
                                 str(after[0]))
     return list(diff)
 
-def scrape(body, timestamp=None, database_url=None):
-    assert timestamp
+def scrape(body, timestamp, database_url=None):
     path = os.path.join(os.path.dirname(__file__), 'query.sql')
     with open(path) as f:
         with psycopg2.connect(database_url) as conn:
@@ -41,7 +40,7 @@ def main():
     body = sys.stdin.read()
 
     timestamp = datetime.datetime.now(timezone)
-    diff = scrape(body, database_url=database_url, timestamp=timestamp)
+    diff = scrape(body, timestamp, database_url=database_url)
 
     if not diff:
         return
