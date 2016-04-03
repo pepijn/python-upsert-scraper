@@ -40,7 +40,7 @@ def main():
     import sys
     body = sys.stdin.read()
 
-    timestamp = datetime.datetime.now().replace(tzinfo=timezone)
+    timestamp = datetime.datetime.now(timezone)
     diff = scrape(body, database_url=database_url, timestamp=timestamp)
 
     if not diff:
