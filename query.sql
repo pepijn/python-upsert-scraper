@@ -1,14 +1,13 @@
-SET timezone TO 'Europe/Amsterdam';
-
 CREATE TABLE IF NOT EXISTS scraps (
   id serial PRIMARY KEY,
   body text NOT NULL UNIQUE,
   seen_at timestamptz[] NOT NULL
 );
 
-INSERT INTO scraps (body, seen_at) VALUES (%s, ARRAY[%s::timestamptz])
-  ON CONFLICT (body) DO
-    UPDATE SET seen_at = scraps.seen_at || EXCLUDED.seen_at;
+INSERT INTO scraps (body, seen_at)
+            VALUES (%s, ARRAY[%s::timestamptz])
+  ON CONFLICT (body) DO UPDATE
+  SET seen_at = scraps.seen_at || EXCLUDED.seen_at;
 
 WITH
   last_observations AS (

@@ -22,8 +22,8 @@ def scrape(body, timestamp=None, database_url=None):
         timestamp = datetime.now()
 
     import os
-    query_file_path = os.path.join(os.path.dirname(__file__), 'query.sql')
-    with open(query_file_path) as f:
+    path = os.path.join(os.path.dirname(__file__), 'query.sql')
+    with open(path) as f:
         result = query(f.read(),
                        params=(body, timestamp),
                        database_url=database_url)
