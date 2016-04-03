@@ -1,12 +1,17 @@
+CREATE EXTENSION IF NOT EXISTS pgcrypto;
+
 CREATE TABLE IF NOT EXISTS scraps (
   id serial PRIMARY KEY,
-  body text NOT NULL UNIQUE,
+  hash bytea NOT NULL UNIQUE,
+  body text NOT NULL,
   seen_at timestamptz[] NOT NULL
 );
 
-INSERT INTO scraps (body, seen_at)
-            VALUES (%s, ARRAY[%s::timestamptz])
-  ON CONFLICT (body) DO UPDATE
+WITH input AS (SELECT %s::text AS body)
+INSERT INTO scraps (hash, body, seen_at)
+    SELECT digest(body, 'sha1'), body, ARRAY[%s::timestamptz]
+    FROM input
+  ON CONFLICT (hash) DO UPDATE
   SET seen_at = scraps.seen_at || EXCLUDED.seen_at;
 
 WITH
