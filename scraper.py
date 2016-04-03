@@ -24,10 +24,10 @@ def scrape(body, timestamp=datetime.now(), database_url=None):
                 return diff(*results)
 
 def main():
-    database_url = os.environ['DATABASE_URL']
-    sender = os.environ['FROM']
-    sendgrid_user = os.environ['SENDGRID_USERNAME']
+    database_url  = os.environ['DATABASE_URL']
+    sender        = os.environ['FROM']
     sendgrid_pass = os.environ['SENDGRID_PASSWORD']
+    sendgrid_user = os.environ['SENDGRID_USERNAME']
 
     import argparse
     parser = argparse.ArgumentParser()
