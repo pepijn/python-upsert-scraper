@@ -3,6 +3,7 @@ import difflib
 import os
 import psycopg2
 import pytz
+from bs4 import BeautifulSoup
 
 def diff(after, before=None):
     if not before:
@@ -37,10 +38,10 @@ def main():
     args = parser.parse_args()
 
     import sys
-    body = sys.stdin.read()
+    body = BeautifulSoup(sys.stdin.read(), 'html.parser')
 
     timestamp = datetime.datetime.now(timezone)
-    diff = scrape(body, timestamp, database_url=database_url)
+    diff = scrape(body.prettify(), timestamp, database_url=database_url)
 
     if not diff:
         return

@@ -1,3 +1,4 @@
 psycopg2~=2.6.1
 sendgrid~=2.2.1
 pytz~=2016.3
+beautifulsoup4~=4.4.1
