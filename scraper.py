@@ -47,11 +47,13 @@ def main():
 
     import sendgrid
     sg = sendgrid.SendGridClient(sendgrid_user, sendgrid_pass)
-    message = sendgrid.Mail(to=args.recipients,
-                            subject=args.subject,
+    message = sendgrid.Mail(subject=args.subject,
                             text=''.join(diff),
                             from_email=sender)
+    for to in args.recipients.split(','):
+        message.add_to(to)
     status, msg = sg.send(message)
+    print(msg)
     if status is not 200:
         sys.exit(1)
 
