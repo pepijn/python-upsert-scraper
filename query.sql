@@ -1,3 +1,4 @@
+-- Create table
 CREATE TABLE IF NOT EXISTS scraps (
     id serial PRIMARY KEY,
     hash bytea NOT NULL UNIQUE,
