@@ -3,6 +3,7 @@ import difflib
 import os
 import psycopg2
 import pytz
+import re
 from bs4 import BeautifulSoup
 
 def diff(after, before=None):
@@ -16,13 +17,17 @@ def diff(after, before=None):
     return list(diff)
 
 def scrape(body, timestamp, database_url=None):
-    path = os.path.join(os.path.dirname(__file__), 'query.sql')
-    with open(path) as f:
-        with psycopg2.connect(database_url) as conn:
-            with conn.cursor() as cur:
-                cur.execute(f.read(), (body, timestamp))
-                results = cur.fetchall()
-                return diff(*results)
+    query_path = os.path.join(os.path.dirname(__file__), 'query.sql')
+    select_path = os.path.join(os.path.dirname(__file__), 'select.sql')
+
+    with open(query_path) as q:
+        with open(select_path) as s:
+            with psycopg2.connect(database_url) as conn:
+                with conn.cursor() as cur:
+                    query = re.sub('([^:]):\w+', '\\1%s', q.read())
+                    cur.execute(query + s.read(), (body, timestamp))
+                    results = cur.fetchall()
+                    return diff(*results)
 
 def main():
     database_url  = os.environ['DATABASE_URL']
