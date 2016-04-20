@@ -23,4 +23,4 @@ sendgrid (sendgrid-horizontal-56807)           starter    free
 
 Every 10 minutes:
 
-    curl -s "http://example.com" | python scraper.py --recipients you@example.com --subject "Website changed"
+    curl -s "http://example.com" | python scraper.py --recipients you@example.com,friend@example.com --subject "Website changed"
