@@ -40,6 +40,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--recipients', required=True)
     parser.add_argument('--subject', required=True)
+    parser.add_argument('--link', required=False)
     args = parser.parse_args()
 
     import sys
