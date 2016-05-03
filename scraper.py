@@ -55,7 +55,7 @@ def main():
     import sendgrid
     sg = sendgrid.SendGridClient(sendgrid_user, sendgrid_pass)
     message = sendgrid.Mail(subject=args.subject,
-                            text='link to site: ' + args.link + '\n' + ' '.join(diff),
+                            text='Link to site: ' + args.link + '\n\n\n' + ' '.join(diff),
                             from_email=sender)
     for to in args.recipients.split(','):
         message.add_to(to)
