@@ -1,3 +1,7 @@
+---
+published: true
+---
+
 # UPSERT scraper
 
 Accompanying article: http://p.epij.nl/postgresql/heroku/2016/04/20/sidestepping-heroku-limits-with-postgresql-upsert/
@@ -18,7 +22,7 @@ scheduler (scheduler-trapezoidal-14878)        standard   free
 sendgrid (sendgrid-horizontal-56807)           starter    free
  └─ as SENDGRID
  ```
- 
+
 ### Heroku scheduler settings
 
 Every 10 minutes:
