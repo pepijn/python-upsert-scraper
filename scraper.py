@@ -40,6 +40,7 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('--recipients', required=True)
     parser.add_argument('--subject', required=True)
+    parser.add_argument('--link', required=True)
     args = parser.parse_args()
 
     import sys
@@ -54,7 +55,7 @@ def main():
     import sendgrid
     sg = sendgrid.SendGridClient(sendgrid_user, sendgrid_pass)
     message = sendgrid.Mail(subject=args.subject,
-                            text=''.join(diff),
+                            text='Link to site: ' + args.link + '\n\n\n' + ' '.join(diff),
                             from_email=sender)
     for to in args.recipients.split(','):
         message.add_to(to)
